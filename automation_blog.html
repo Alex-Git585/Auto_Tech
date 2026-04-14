@@ -1,0 +1,294 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); background: transparent; }
+  .blog { max-width: 720px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+
+  .badge { display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: 0.05em; padding: 4px 10px; border-radius: 20px; background: #E6F1FB; color: #0C447C; margin-bottom: 1rem; text-transform: uppercase; }
+  .hero-title { font-size: 28px; font-weight: 500; color: var(--color-text-primary); line-height: 1.3; margin-bottom: 0.5rem; }
+  .hero-subtitle { font-size: 15px; color: var(--color-text-secondary); margin-bottom: 1.5rem; line-height: 1.6; }
+  .author-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; }
+  .avatar { width: 36px; height: 36px; border-radius: 50%; background: #9FE1CB; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; color: #085041; flex-shrink: 0; }
+  .author-info { font-size: 13px; color: var(--color-text-secondary); }
+  .author-info strong { color: var(--color-text-primary); font-weight: 500; }
+
+  .hero-visual { width: 100%; border-radius: 12px; background: linear-gradient(135deg, #0C447C 0%, #185FA5 40%, #1D9E75 100%); padding: 2rem 1.5rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .hero-visual::before { content: ''; position: absolute; top: -30px; right: -30px; width: 160px; height: 160px; border-radius: 50%; background: rgba(255,255,255,0.06); }
+  .hero-visual::after { content: ''; position: absolute; bottom: -20px; left: 20px; width: 100px; height: 100px; border-radius: 50%; background: rgba(255,255,255,0.04); }
+  .city-icons { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .city-icon { text-align: center; }
+  .icon-box { width: 56px; height: 56px; border-radius: 12px; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; margin-bottom: 6px; }
+  .icon-box svg { width: 28px; height: 28px; fill: none; stroke: rgba(255,255,255,0.9); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .city-icon span { font-size: 11px; color: rgba(255,255,255,0.75); display: block; }
+
+  .story-body p { font-size: 15px; color: var(--color-text-primary); line-height: 1.8; margin-bottom: 1.2rem; }
+  .story-body p.lead { font-size: 16.5px; font-style: italic; color: var(--color-text-secondary); border-left: 3px solid #378ADD; padding-left: 1rem; margin-bottom: 1.5rem; }
+  .section-head { font-size: 18px; font-weight: 500; color: var(--color-text-primary); margin: 2rem 0 0.8rem; }
+  .highlight { background: #E1F5EE; color: #085041; padding: 2px 6px; border-radius: 4px; font-size: 13.5px; font-weight: 500; }
+
+  .sensor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin: 1.5rem 0; }
+  .sensor-card { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 10px; padding: 14px 12px; }
+  .sensor-icon { font-size: 20px; margin-bottom: 6px; }
+  .sensor-name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 3px; }
+  .sensor-use { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+
+  .param-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 1rem 0 1.5rem; }
+  .param-table th { text-align: left; padding: 8px 10px; background: var(--color-background-secondary); color: var(--color-text-secondary); font-weight: 500; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .param-table td { padding: 8px 10px; border-bottom: 0.5px solid var(--color-border-tertiary); color: var(--color-text-primary); vertical-align: top; }
+  .param-table tr:last-child td { border-bottom: none; }
+
+  .tech-pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 1rem 0 1.5rem; }
+  .tech-pill { display: inline-block; padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+  .pill-blue { background: #E6F1FB; color: #0C447C; }
+  .pill-green { background: #EAF3DE; color: #27500A; }
+  .pill-amber { background: #FAEEDA; color: #633806; }
+  .pill-teal { background: #E1F5EE; color: #085041; }
+  .pill-purple { background: #EEEDFE; color: #3C3489; }
+
+  .quote-block { border-left: 3px solid #378ADD; padding: 0.8rem 1.2rem; margin: 1.5rem 0; background: var(--color-background-secondary); border-radius: 0 8px 8px 0; }
+  .quote-block p { font-size: 14.5px; font-style: italic; color: var(--color-text-secondary); margin: 0; line-height: 1.7; }
+
+  .flow-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 1rem 0 1.5rem; }
+  .flow-box { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 8px; padding: 8px 14px; font-size: 13px; color: var(--color-text-primary); white-space: nowrap; }
+  .flow-arrow { color: var(--color-text-secondary); font-size: 14px; }
+
+  .conclusion-card { background: linear-gradient(135deg, #E6F1FB, #E1F5EE); border-radius: 12px; padding: 1.5rem; margin-top: 2rem; border: 0.5px solid #B5D4F4; }
+  .conclusion-card h3 { font-size: 16px; font-weight: 500; color: #0C447C; margin-bottom: 0.6rem; }
+  .conclusion-card p { font-size: 14px; color: #185FA5; line-height: 1.7; margin: 0; }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1.5rem; }
+  .tag { font-size: 11px; padding: 3px 10px; border-radius: 20px; border: 0.5px solid var(--color-border-tertiary); color: var(--color-text-secondary); }
+
+  .divider { height: 0.5px; background: var(--color-border-tertiary); margin: 1.5rem 0; }
+</style>
+
+<div class="blog">
+  <span class="badge">Tech Story · IoT & Automation</span>
+
+  <h1 class="hero-title">The City That Never Sleeps — But Always Thinks</h1>
+  <p class="hero-subtitle">A journey through the invisible world of sensors, signals, and smart automation that runs the world around us — one data packet at a time.</p>
+
+  <div class="author-row">
+    <div class="avatar">AI</div>
+    <div class="author-info">
+      <strong>Automation Chronicles</strong><br>
+      Smart Systems · IoT · Embedded Tech
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="city-icons">
+      <div class="city-icon">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <span>Smart Home</span>
+      </div>
+      <div class="city-icon">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        </div>
+        <span>IoT Network</span>
+      </div>
+      <div class="city-icon">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <span>Real-time Data</span>
+      </div>
+      <div class="city-icon">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <span>Control Center</span>
+      </div>
+      <div class="city-icon">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <span>Safety Systems</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="story-body">
+    <p class="lead">"It was 6:00 AM when Purushottam woke up — not to an alarm, but to the gentle hum of a city that had already been awake for hours, reading, measuring, and deciding things on his behalf."</p>
+
+    <p>Purushottam lives in Pune — a city that, on the surface, looks like any bustling Indian metropolis. But beneath the traffic and chai stalls, there is an invisible nervous system at work. A web of sensors, microcontrollers, algorithms, and wireless protocols that never sleeps, never blinks, and never stops thinking. This is the story of that hidden world. This is the story of <strong>automation around us</strong>.</p>
+
+    <div class="divider"></div>
+    <h2 class="section-head">Chapter 1 — The Morning Ritual</h2>
+
+    <p>The moment Purushottam stepped into his bathroom, a <span class="highlight">PIR motion sensor</span> (Passive Infrared) detected his movement and switched on the lights. No switch was touched. The exhaust fan kicked on 60 seconds later after a <span class="highlight">humidity sensor</span> crossed the 70% threshold. His geyser had already heated water to exactly 42°C overnight, guided by a <span class="highlight">thermostat and temperature sensor</span>, scheduled via a smart timer to save peak-hour electricity.</p>
+
+    <div class="quote-block"><p>"Automation is not about replacing humans — it is about freeing human attention for what matters most. The machine watches the mundane, so you can live the meaningful."</p></div>
+
+    <p>Before he left his apartment, his smart lock's <span class="highlight">RFID sensor</span> authenticated his digital key. The door logged the exact timestamp to a cloud server — remotely accessible, trackable, and tamper-proof.</p>
+
+    <div class="divider"></div>
+    <h2 class="section-head">Chapter 2 — The Sensors That Surround Us</h2>
+
+    <p>Every automated system needs eyes, ears, and a sense of touch. These are provided by sensors — tiny, tireless devices converting physical phenomena into electrical signals. Here is the ecosystem Purushottam interacted with before 9 AM:</p>
+
+    <div class="sensor-grid">
+      <div class="sensor-card">
+        <div class="sensor-icon">🌡️</div>
+        <div class="sensor-name">Temperature Sensor (DHT11/DS18B20)</div>
+        <div class="sensor-use">HVAC control, cold-chain monitoring, smart geysers</div>
+      </div>
+      <div class="sensor-card">
+        <div class="sensor-icon">💧</div>
+        <div class="sensor-name">Humidity Sensor</div>
+        <div class="sensor-use">Exhaust control, greenhouse automation, HVAC</div>
+      </div>
+      <div class="sensor-card">
+        <div class="sensor-icon">👁️</div>
+        <div class="sensor-name">PIR Motion Sensor</div>
+        <div class="sensor-use">Lighting control, security alerts, occupancy detection</div>
+      </div>
+      <div class="sensor-card">
+        <div class="sensor-icon">☀️</div>
+        <div class="sensor-name">LDR / Light Sensor</div>
+        <div class="sensor-use">Street lights, automatic window blinds, camera exposure</div>
+      </div>
+      <div class="sensor-card">
+        <div class="sensor-icon">🔊</div>
+        <div class="sensor-name">Ultrasonic Sensor (HC-SR04)</div>
+        <div class="sensor-use">Parking sensors, level detection, obstacle avoidance</div>
+      </div>
+      <div class="sensor-card">
+        <div class="sensor-icon">🌫️</div>
+        <div class="sensor-name">Gas / Air Quality Sensor (MQ-2, MQ-135)</div>
+        <div class="sensor-use">LPG leak detection, AQI monitoring, kitchen safety</div>
+      </div>
+      <div class="sensor-card">
+        <div class="sensor-icon">🌊</div>
+        <div class="sensor-name">Flow & Pressure Sensor</div>
+        <div class="sensor-use">Water supply management, pump automation</div>
+      </div>
+      <div class="sensor-card">
+        <div class="sensor-icon">📷</div>
+        <div class="sensor-name">Image / Vision Sensor (Camera + CV)</div>
+        <div class="sensor-use">ANPR, face recognition, traffic counting</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <h2 class="section-head">Chapter 3 — The Road Speaks</h2>
+
+    <p>On his drive to work, Purushottam passed through three traffic signals. None of them were manually operated. Each junction was governed by an <strong>Adaptive Traffic Control System (ATCS)</strong> — using <span class="highlight">inductive loop sensors</span> embedded in the road to count vehicles and dynamically adjust signal timings. Overhead, a camera with <span class="highlight">ANPR (Automatic Number Plate Recognition)</span> was silently logging every vehicle that crossed — tracking speed violations, stolen vehicles, and challan records without a single traffic officer present.</p>
+
+    <p>Nearby, a smart parking system used <span class="highlight">ultrasonic sensors</span> in every bay to broadcast real-time occupancy data to a mobile app, routing drivers directly to empty spots. Fuel wasted circling for parking — eliminated.</p>
+
+    <div class="divider"></div>
+    <h2 class="section-head">Chapter 4 — Parameters Under Automation's Watch</h2>
+
+    <p>Automation's true power lies in what it continuously measures, controls, and responds to. Here is a breakdown of parameters monitored across key domains:</p>
+
+    <table class="param-table">
+      <tr>
+        <th>Domain</th>
+        <th>Parameter Measured</th>
+        <th>Automated Action</th>
+      </tr>
+      <tr>
+        <td>Smart Home</td>
+        <td>Temperature, humidity, motion, light intensity</td>
+        <td>HVAC control, auto-lighting, fan speed regulation</td>
+      </tr>
+      <tr>
+        <td>Smart Agriculture</td>
+        <td>Soil moisture, pH, leaf wetness, rainfall</td>
+        <td>Drip irrigation ON/OFF, fertilizer dosing</td>
+      </tr>
+      <tr>
+        <td>Industry (IIoT)</td>
+        <td>Vibration, current, pressure, temperature</td>
+        <td>Predictive maintenance alerts, conveyor speed</td>
+      </tr>
+      <tr>
+        <td>Smart City</td>
+        <td>Vehicle count, AQI, water level, energy usage</td>
+        <td>Signal timing, street-light dimming, flood alerts</td>
+      </tr>
+      <tr>
+        <td>Healthcare</td>
+        <td>SpO₂, heart rate, blood glucose, room sterilization</td>
+        <td>Alerts to nurses, IV drip rate control</td>
+      </tr>
+      <tr>
+        <td>Cold Chain</td>
+        <td>Temperature, humidity, door-open events</td>
+        <td>Compressor adjustment, breach SMS alerts</td>
+      </tr>
+    </table>
+
+    <div class="divider"></div>
+    <h2 class="section-head">Chapter 5 — The Technology Stack</h2>
+
+    <p>Every automation system rests on a layered technology stack — from the hardware that senses, to the cloud that thinks, to the app that tells you the result. The key technologies powering Purushottam's invisible city include:</p>
+
+    <div class="tech-pills">
+      <span class="tech-pill pill-blue">Arduino / Raspberry Pi</span>
+      <span class="tech-pill pill-green">MQTT Protocol</span>
+      <span class="tech-pill pill-teal">Zigbee / Z-Wave (Mesh Networks)</span>
+      <span class="tech-pill pill-amber">LoRaWAN (Long Range IoT)</span>
+      <span class="tech-pill pill-purple">PLC (Programmable Logic Controller)</span>
+      <span class="tech-pill pill-blue">SCADA Systems</span>
+      <span class="tech-pill pill-green">AWS IoT / Azure IoT Hub</span>
+      <span class="tech-pill pill-teal">Edge Computing</span>
+      <span class="tech-pill pill-amber">5G Connectivity</span>
+      <span class="tech-pill pill-purple">Machine Learning (Anomaly Detection)</span>
+      <span class="tech-pill pill-blue">REST APIs & Webhooks</span>
+      <span class="tech-pill pill-green">Node-RED (Flow Automation)</span>
+    </div>
+
+    <h2 class="section-head">Chapter 6 — The Flow of Automation</h2>
+    <p>Every smart system follows the same fundamental loop — from perception to decision to action:</p>
+
+    <div class="flow-row">
+      <div class="flow-box">Sense<br><span style="font-size:11px;color:var(--color-text-secondary)">Sensor reads data</span></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Transmit<br><span style="font-size:11px;color:var(--color-text-secondary)">Wi-Fi / BLE / LoRa</span></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Process<br><span style="font-size:11px;color:var(--color-text-secondary)">MCU / Cloud / Edge</span></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Decide<br><span style="font-size:11px;color:var(--color-text-secondary)">Algorithm / ML model</span></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Actuate<br><span style="font-size:11px;color:var(--color-text-secondary)">Relay / Motor / Alert</span></div>
+    </div>
+
+    <div class="divider"></div>
+    <h2 class="section-head">Chapter 7 — The Farm That Talks to the Cloud</h2>
+
+    <p>Sixty kilometers outside Pune, a farmer named Ayush had not watered his fields manually in two years. His farm was equipped with <span class="highlight">soil moisture sensors (YL-69)</span>, a <span class="highlight">DHT22 weather module</span>, and a <span class="highlight">solar-powered LoRaWAN gateway</span>. The system checked soil moisture every 15 minutes. If it dropped below 30%, an ESP32 microcontroller triggered a solenoid valve to begin drip irrigation — automatically, remotely, precisely.</p>
+
+    <p>The data was relayed to a dashboard on his phone: soil pH, nutrient levels via <span class="highlight">NPK sensors</span>, pest trap image counts via a camera — all logged, graphed, and analyzed. When a disease pattern was detected in leaf images, an ML model trained on 50,000 crop images sent him an SMS alert: <em>"Early blight detected in Field 3. Suggest Mancozeb spray within 48 hours."</em></p>
+
+    <div class="quote-block"><p>"Automation does not make farmers less skilled. It makes their knowledge infinitely more scalable — one brain, ten thousand acres, zero wasted drops."</p></div>
+
+    <div class="divider"></div>
+    <h2 class="section-head">Chapter 8 — Remote Monitoring, Everywhere</h2>
+
+    <p>Perhaps the most transformative power of modern automation is <strong>remote monitoring</strong> — the ability to see, control, and respond to systems from anywhere on Earth. Water treatment plants use <span class="highlight">SCADA (Supervisory Control and Data Acquisition)</span> systems to monitor chlorine levels, turbidity, pH, and pump pressure — all from a central control room. A faulty pump in Zone 7 triggers an alarm before a single resident loses water supply.</p>
+
+    <p>Power grids use <span class="highlight">smart meters</span> transmitting consumption data every 15 minutes, enabling dynamic pricing, theft detection, and load-balancing. Hospitals monitor patients' vital signs via wearable sensors feeding data to cloud dashboards, where an AI flags abnormal patterns before doctors are even paged.</p>
+
+    <div class="conclusion-card">
+      <h3>The Epilogue — We Are Already Living in the Future</h3>
+      <p>By the time Purushottam returned home that evening, over 2,000 automated decisions had been made on his behalf — without his knowledge, without his intervention, and without a single error. The traffic signal knew when he was approaching. The parking lot texted him a spot. His apartment had already cooled to 24°C. Automation is not a distant future. It is the present we have already built — sensor by sensor, line of code by line of code. And it is only just beginning.</p>
+    </div>
+
+    <div class="tag-row">
+      <span class="tag">#IoT</span>
+      <span class="tag">#Automation</span>
+      <span class="tag">#SmartCity</span>
+      <span class="tag">#Sensors</span>
+      <span class="tag">#EmbeddedSystems</span>
+      <span class="tag">#Industry4.0</span>
+      <span class="tag">#SCADA</span>
+      <span class="tag">#PrecisionAgriculture</span>
+      <span class="tag">#TechStory</span>
+    </div>
+  </div>
+</div>
